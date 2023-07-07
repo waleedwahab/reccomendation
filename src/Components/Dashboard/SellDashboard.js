@@ -27,8 +27,11 @@ function SellDashboard() {
 
     console.log("item",item);
     const items = item;
-    navigate('/viewItem');
+   // navigate('/viewItem');
+    navigate('/viewItem', { state: { item } });
   }
+
+  
 
   return (
     <div className={styles.sell_container}>

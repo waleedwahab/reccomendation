@@ -40,7 +40,7 @@ function App() {
           <Route path="AdminDashboard" element={<AdminDashboard />} />
           <Route path="/admin/sell" element={<SellPanel />} />
           <Route path="/admin/rent" element={<RentPanel />} />
-          <Route path="/viewItem" component={<Viewitems/>} />
+          <Route path="/viewItem" element={<Viewitems/>} />
           <Route
             path="/conversation"
             element={<Conversation currentUser={user} sellingUser={seller} />}
