@@ -7,6 +7,7 @@
   justify-content: center;
 }
 
+ 
 /* Sell item */
 .slick_item {
   margin: 1rem;
@@ -16,6 +17,7 @@
   width: 300px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
 }
+
 
 /* Sell item image */
 .slick_item img {

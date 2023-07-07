@@ -57,6 +57,7 @@ function SearchComponentResults({ searchResults }) {
                 <a href={item.page_url}>
                   <Button size="small">Link</Button>
                 </a>
+                <Button size="small">view Item</Button>
                 <Button size="small">Learn More</Button>
               </CardActions>
             </Card>
