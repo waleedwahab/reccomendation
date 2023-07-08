@@ -8,6 +8,8 @@ import styles from "./Sell.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import UserNavbar from "../Navbar/UserNavbar";
+import Footer from "./../Navbar/Footer";
 
 function SellDashboard() {
   const [sellList, setSellList] = useState([]);
@@ -34,18 +36,23 @@ function SellDashboard() {
   
 
   return (
+    <>
+    <UserNavbar/>
+    <h1  style={{ color: 'blue', fontSize: '24px', textAlign: 'center' }}>SELLING LIST</h1>
     <div className={styles.sell_container}>
+   
   {sellList.map((item, index) => (
     <div key={index} className={styles.slick_item}>
       <div className={styles.abc}>
         {/* Map over the images array */}
-        {item.images.map((image, i) => (
-          <img
-            key={i}
-            src={image.url}
-            alt={`Image ${i + 1} of ${item.images.length}`}
-          />
-        ))}
+        {item.images.length > 0 && (
+  <img
+    key={0}
+    src={item.images[0].url}
+    alt={`Image 1 of ${item.images.length}`}
+  />
+)}
+
         <p className={styles.p}>
           <LocationOnIcon style={{ fontSize: "17px", color: "black" }} />{" "}
           {item.city}
@@ -76,7 +83,10 @@ function SellDashboard() {
       </div>
     </div>
   ))}
+  <Footer />
 </div>
+
+</>
 
   );
 }

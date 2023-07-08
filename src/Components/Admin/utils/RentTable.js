@@ -55,7 +55,7 @@ function RentTable() {
 
   return (
     <div>
-      <table>
+      <table  style={{ width: "900px" }}>
         <thead>
           <tr>
             <th>Email</th>

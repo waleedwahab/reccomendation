@@ -55,7 +55,7 @@ function SellTable() {
 
   return (
     <div>
-      <table>
+      <table  style={{ width: "800px" }}>
         <thead>
           <tr>
             <th>Email</th>
@@ -65,7 +65,7 @@ function SellTable() {
             <th>Bedroom</th>
             <th>Phone Number</th>
             <th>Area</th>
-            <th>Description</th>
+           
             <th>Price</th>
             <th>Title</th>
             <th>Actions</th>
@@ -81,7 +81,7 @@ function SellTable() {
               <td>{user.bedroom}</td>
               <td>{user.number}</td>
               <td>{user.area}</td>
-              <td>{user.description}</td>
+             
               <td>{user.price}</td>
               <td>{user.title}</td>
               <td>

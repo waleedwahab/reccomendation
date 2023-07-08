@@ -12,6 +12,7 @@ import RentDashboard from "./RentDashboard";
 import SearchComponentResults from "./SearchComponent";
 import HotList from "./HotListItems";
 import Footer from "./../Navbar/Footer";
+import { useNavigate } from "react-router-dom";
 
 function UserDashboard() {
   const CssTextField = styled(TextField)({
@@ -42,6 +43,7 @@ function UserDashboard() {
     },
   });
 
+  const Navigate = useNavigate();
   const cardContainerStyle = {
     display: 'flex',
     flexWrap: 'wrap',
@@ -101,7 +103,7 @@ function UserDashboard() {
   const [showRentalList, setShowRentalList] = useState(true);
 
   const handleCloseUpload = () => {
-    setIsUploadOpen(false);
+    setIsUploadOpen(false)
   };
 
   const handleLocationChange = (lat, lng) => {
@@ -109,15 +111,19 @@ function UserDashboard() {
   };
 
   const handleBuyButtonClick = () => {
-    setShowSellingList(true);
+   {/* setShowSellingList(true);
     setShowHotList(false);
-    setShowRentalList(false);
+  setShowRentalList(false);*/}
+    Navigate("/buylist")
   };
 
   const handleRentButtonClick = () => {
+    {/*
     setShowSellingList(false);
     setShowHotList(false);
     setShowRentalList(true);
+  */}
+  Navigate("/rentlist")
   };
   return (
     <>
@@ -210,14 +216,18 @@ function UserDashboard() {
 
           {showSellingList && (
             <div className="sell">
+            {/*
               <h6>Selling List</h6>
               <SellDashboard />
+              */}
             </div>
           )}
           {showRentalList && (
             <div className="sell" style={{ marginBottom: "60px" }}>
+            {/*
               <h6>Rent List</h6>
               <RentDashboard />
+              */}
             </div>
           )}
         </div>

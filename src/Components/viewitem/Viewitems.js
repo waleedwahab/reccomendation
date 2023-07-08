@@ -16,7 +16,7 @@ import Footer from "./../Navbar/Footer";
 
 const Slider = ({ images }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-const [rows, setrows] = useState ([1,2,3,4,5,6,6,7,8,9,9,90,])
+//const [rows, setrows] = useState ([1,2,3,4,5,6,6,7,8,9,9,90,])
   const goToPreviousImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
   };

@@ -12,9 +12,11 @@ import { IconButton } from "@mui/material";
 
 import { Stack } from "@mui/system";
 import { db } from "../../../Auth/firebase";
+import { useNavigate } from "react-router-dom";
 
 function UserTable() {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -28,15 +30,8 @@ function UserTable() {
     fetchUsers();
   }, []);
 
-  const handleEdit = async (user) => {
-    try {
-      const userRef = doc(db, "rent", user.id);
-      await updateDoc(userRef, user);
-      alert("User data updated successfully!");
-    } catch (error) {
-      console.error(error);
-      alert("Error updating user data.");
-    }
+  const handleEdit = (user) => {
+    navigate("/edituser", { state: { user } });
   };
 
   const handleDelete = async (user) => {
@@ -55,13 +50,12 @@ function UserTable() {
 
   return (
     <div>
-      <table>
+      <table style={{ width: "900px" }}>
         <thead>
           <tr>
             <th>Email</th>
             <th>Name</th>
             <th>ID</th>
-            <th>Img URL</th>
             <th>Phone Number</th>
             <th>Role</th>
             <th>Rent</th>
@@ -75,39 +69,25 @@ function UserTable() {
               <td>{user.name}</td>
               <td>{user.email}</td>
               <td>{user.id}</td>
-              <td>{user.imgURL}</td>
               <td>{user.phoneNo}</td>
               <td>{user.role}</td>
               <td>{user.rent}</td>
               <td>{user.sell}</td>
               <td>
-                <td>
-                  <Stack
-                    direction="row"
-                    spacing={0}
-                    sx={{ marginTop: "-15px" }}
-                  >
-                    <IconButton
-                      color="primary"
-                      aria-label="add to shopping cart"
-                    >
-                      <DeleteIcon
-                        style={{ color: "#E53472" }}
-                        onClick={() => handleDelete(user)}
-                      />
-                    </IconButton>
-
-                    <IconButton
-                      color="primary"
-                      aria-label="add to shopping cart"
-                    >
-                      <EditIcon
-                        style={{ color: "#2A84EB" }}
-                        onClick={() => handleEdit(user)}
-                      />
-                    </IconButton>
-                  </Stack>
-                </td>
+                <Stack direction="row" spacing={0} sx={{ marginTop: "-15px" }}>
+                  <IconButton color="primary" aria-label="add to shopping cart">
+                    <DeleteIcon
+                      style={{ color: "#E53472" }}
+                      onClick={() => handleDelete(user)}
+                    />
+                  </IconButton>
+                  <IconButton color="primary" aria-label="add to shopping cart">
+                    <EditIcon
+                      style={{ color: "#2A84EB" }}
+                      onClick={() => handleEdit(user)}
+                    />
+                  </IconButton>
+                </Stack>
               </td>
             </tr>
           ))}

@@ -23,6 +23,9 @@ import { useSelector } from "react-redux";
 import AboutUs from "./Components/Dashboard/AboutUs";
 import ContactUs from "./Components/Dashboard/ContactUs";
 import Viewitems from "./Components/viewitem/Viewitems";
+import SellDashboard from "./Components/Dashboard/SellDashboard";
+import RentDashboard from "./Components/Dashboard/RentDashboard";
+import Edituser from "./Components/adminedit/Edituser";
 
 // import { userActions } from "./Components/Redux/user-slice";
 
@@ -38,6 +41,8 @@ function App() {
           {/* Protected Admin Routes */}
           <Route path="AdminLogin" element={<AdminLogin />} />
           <Route path="AdminDashboard" element={<AdminDashboard />} />
+         
+          <Route path="/edituser" element={<Edituser />} />
           <Route path="/admin/sell" element={<SellPanel />} />
           <Route path="/admin/rent" element={<RentPanel />} />
           <Route path="/viewItem" element={<Viewitems/>} />
@@ -51,6 +56,10 @@ function App() {
           <Route path="userProfile" element={<UserProfile user={user} />} />
           <Route path="Sell" element={<Sell />} />
           <Route path="Rent" element={<Rent />} />
+          <Route path="/buylist" element={<SellDashboard />} />
+          
+          <Route path="/rentlist" element={<RentDashboard/>} />
+
           <Route path="ManageSell" element={<ManageSell />} />
           <Route path="ManageRent" element={<ManageRent />} />
           <Route path="SellEdit" element={<SellEdit />} />
