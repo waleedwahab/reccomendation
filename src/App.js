@@ -1,7 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import Missing from "./Components/Layout/Missing";
-import Unauthorized from "./Components/Layout/Unauthorized";
+
+//import Unauthorized from "./Components/Layout/Unauthorized";
 import Layout from "./Components/Layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,12 +26,17 @@ import ContactUs from "./Components/Dashboard/ContactUs";
 import Viewitems from "./Components/viewitem/Viewitems";
 import SellDashboard from "./Components/Dashboard/SellDashboard";
 import RentDashboard from "./Components/Dashboard/RentDashboard";
+import Rentingelist from "./Components/adminedit/Rentingelist";
+import Sellingelist from "./Components/adminedit/Sellingelist";
 import Edituser from "./Components/adminedit/Edituser";
+import RequireAuth from "./layout/RquireAuth";
+import Unauthorized from "./layout/Unauthorized";
 
 // import { userActions } from "./Components/Redux/user-slice";
 
 function App() {
   const user = useSelector((state) => state.user.userInfo);
+  console.log("User",user);
   const seller = useSelector((state) => state.user.sellingUser);
   return (
     <>
@@ -46,12 +52,15 @@ function App() {
           <Route path="/admin/sell" element={<SellPanel />} />
           <Route path="/admin/rent" element={<RentPanel />} />
           <Route path="/viewItem" element={<Viewitems/>} />
+          <Route path="/editr" element={<Rentingelist/>} />
+          <Route path="/edits" element={<Sellingelist/>} />
           <Route
             path="/conversation"
             element={<Conversation currentUser={user} sellingUser={seller} />}
           />
 
           {/* Protected User Routes */}
+          <Route   element = {<RequireAuth/>}  >
           <Route path="UserDashboard" element={<UserDashboard />} />
           <Route path="userProfile" element={<UserProfile user={user} />} />
           <Route path="Sell" element={<Sell />} />
@@ -67,7 +76,8 @@ function App() {
           <Route path="ContactUs" element={<ContactUs />} />
           <Route path="RentEdit" element={<RentEdit />} />
           <Route path="*" element={<Missing />} />
-          <Route path="Unauthorized" element={<Unauthorized />} />
+          <Route path="/Unauthorized" element={<Unauthorized />} />
+        </Route>
         </Route>
       </Routes>
 

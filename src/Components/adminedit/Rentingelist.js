@@ -1,7 +1,9 @@
+
+
 import React, { useEffect, useState } from 'react'
 import GoogleMaps2 from '../Maps/GoogleMaps2'
 import UserNavbar from '../Navbar/UserNavbar'
-import styles from './Rent.module.css'
+import styles from '../Rent/Rent.module.css'
 import image from './../../Assets/property.png'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,7 +22,7 @@ import { useSelector } from 'react-redux'
 import { async } from '@firebase/util'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-function RentEdit() {
+function Rentingelist() {
     const locations = useLocation()
     console.log(locations.state.data);
     const [showMap, setShowMap] = useState(false)
@@ -736,4 +738,4 @@ function RentEdit() {
     )
 }
 
-export default RentEdit
+export default Rentingelist;
