@@ -204,7 +204,7 @@ function Rent() {
                     <div className={styles.right}>
                         <div>
                             <h4 className={styles.h4}>Select Property Type</h4>
-                            <FormControl sx={{ minWidth: 220 }}>
+                            <FormControl sx={{ minWidth: '95%' }}>
                                 <InputLabel htmlFor="grouped-select">Property</InputLabel>
 
                                 <Select value={type} id="grouped-select" onChange={handleType} label="Grouping"  >
@@ -235,8 +235,8 @@ function Rent() {
 
                         <div>
                             <h4 className={styles.h4}>City</h4>
-                            <Box sx={{ minWidth: 220 }}>
-                                <FormControl sx={{ minWidth: 220 }}>
+                            <Box sx={{ minWidth: '95%' }}>
+                                <FormControl sx={{ minWidth: '95%' }}>
                                     <InputLabel id="demo-simple-select-label">City</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
@@ -570,7 +570,7 @@ function Rent() {
                     <div className={styles.right}>
                         <div>
                             <h4 className={styles.h4}>Area Size</h4>
-                            <FormControl sx={{ width: '25ch' }} variant="outlined">
+                            <FormControl sx={{ width: '95%' }} variant="outlined">
                                 <OutlinedInput
                                     id="outlined-adornment-weight"
                                     endAdornment={<InputAdornment position="end">Marla</InputAdornment>}
@@ -586,7 +586,7 @@ function Rent() {
                         </div>
                         <div>
                             <h4 className={styles.h4}>Price</h4>
-                            <FormControl variant="standard">
+                            <FormControl sx={{ width: '95%' }} variant="standard">
                                 <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
                                 <Input
                                     id="standard-adornment-amount"
@@ -608,7 +608,7 @@ function Rent() {
                     <div className={styles.right}>
                         <div>
                             <h4 className={styles.h4}>Bedroom</h4>
-                            <FormControl sx={{ width: '25ch' }} variant="outlined">
+                            <FormControl sx={{ width: '95%' }} variant="outlined">
                                 <OutlinedInput
                                     id="outlined-adornment-weight"
                                     aria-describedby="outlined-weight-helper-text"
@@ -624,7 +624,7 @@ function Rent() {
                         </div>
                         <div>
                             <h4 className={styles.h4}>Bathroom</h4>
-                            <FormControl sx={{ width: '25ch' }} variant="outlined">
+                            <FormControl sx={{ width: '95%' }} variant="outlined">
                                 <OutlinedInput
                                     id="outlined-adornment-weight"
                                     aria-describedby="outlined-weight-helper-text"
@@ -649,7 +649,7 @@ function Rent() {
                     <div className={styles.right}>
                         <div>
                             <h4 className={styles.h4}>Title</h4>
-                            <FormControl sx={{ width: '70%' }} variant="outlined">
+                            <FormControl sx={{ width: '95%' }} variant="outlined">
                                 <OutlinedInput
                                     id="outlined-adornment-weight"
                                     aria-describedby="outlined-weight-helper-text"
@@ -664,7 +664,7 @@ function Rent() {
                         </div>
                         <div>
                             <h4 className={styles.h4}>Description</h4>
-                            <textarea rows={20} value={description} onChange={(e) => setDescription(e.target.value)} required placeholder="Describe your property, it’s features, area it is in etc." style={{ width: '80%', padding: '10px' }} />
+                            <textarea rows={20} value={description} onChange={(e) => setDescription(e.target.value)} required placeholder="Describe your property, it’s features, area it is in etc." style={{ width: '95%', padding: '10px' }} />
                         </div>
                     </div>
 
@@ -700,7 +700,7 @@ function Rent() {
                     <div className={styles.right}>
                         <div>
                             <h4 className={styles.h4}>Email</h4>
-                            <FormControl sx={{ width: '30%' }} variant="outlined">
+                            <FormControl sx={{ width: '95%' }} variant="outlined">
                                 <OutlinedInput
                                     id="outlined-adornment-weight"
                                     aria-describedby="outlined-weight-helper-text"
@@ -716,7 +716,7 @@ function Rent() {
                         </div>
                         <div>
                             <h4 className={styles.h4}>Mobile</h4>
-                            <FormControl sx={{ width: '30%' }} variant="outlined">
+                            <FormControl sx={{ width: '95%' }} variant="outlined">
                                 <OutlinedInput
                                     id="outlined-adornment-weight"
                                     aria-describedby="outlined-weight-helper-text"

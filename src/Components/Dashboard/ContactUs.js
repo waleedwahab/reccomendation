@@ -19,7 +19,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 400px;
+  border: 1px solid #fff;
 `;
 
 const Input = styled.input`
@@ -63,7 +63,7 @@ function ContactUs() {
   return (
     <>
       <UserNavbar />
-      <ContactContainer>
+      <ContactContainer sx={{ width: '95%' }}>
         <Title>Contact Us</Title>
         <Form onSubmit={handleSubmit}>
           <Input
