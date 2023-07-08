@@ -19,6 +19,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
+  background-color: #fff;
   border: 1px solid #fff;
 `;
 
