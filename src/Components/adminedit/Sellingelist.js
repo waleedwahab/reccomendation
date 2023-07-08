@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import GoogleMaps2 from '../Maps/GoogleMaps2'
 import UserNavbar from '../Navbar/UserNavbar'
-import styles from './Rent.module.css'
+import styles from '../Sell/Sell.module.css'
 import image from './../../Assets/property.png'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux'
 import { async } from '@firebase/util'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-function RentEdit() {
+function Sellingelist() {
     const locations = useLocation()
     console.log(locations.state.data);
     const [showMap, setShowMap] = useState(false)
@@ -44,33 +44,10 @@ function RentEdit() {
 
 
     useEffect(() => {
-        // const getUsers2 = async () => {
-        //     const docRef = doc(db, "users", user.id);
-        //     const colRef = collection(docRef, "sell")
-        //     const abc = doc(colRef, "arCLkL3QFhSROI5tj11O")
-        //     let data = {
-        //         city: location,
-        //         type,
-        //         location: new GeoPoint(latitute, longitude),
-        //         area: marla,
-        //         price,
-        //         bedroom,
-        //         bathroom,
-        //         title,
-        //         description,
-        //         images: fileURL,
-        //         email,
-        //         number,
-        //     }
-        //     const state = await updateDoc(abc, data)
-        //     console.log(state);
-        // }
-
-        // getUsers2()
-
+  
         const getUsers = async () => {
             const docRef = doc(db, "users", user.id);
-            const colRef = collection(docRef, "rent")
+            const colRef = collection(docRef, "sell")
             const data = await getDocs(colRef)
             console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
         }
@@ -170,10 +147,10 @@ function RentEdit() {
             }
             console.log(data);
             const docRef = doc(db, "users", user.id);
-            const colRef = collection(docRef, "rent")
+            const colRef = collection(docRef, "sell")
             const abc = doc(colRef, locations.state.data.id)
             updateDoc(abc, data).then((res) => {
-                navigate('/ManageRent')
+                navigate('/ManageSell')
                 toast.success('Please select location', {
                     position: toast.POSITION.TOP_RIGHT,
                 });
@@ -203,7 +180,7 @@ function RentEdit() {
                             <FormControl sx={{ minWidth: 220 }}>
                                 <InputLabel htmlFor="grouped-select">Property</InputLabel>
 
-                                <Select value={type} id="grouped-select" onChange={handleType} label="Grouping">
+                                <Select value={type} id="grouped-select" onChange={handleType} label="Grouping"  >
                                     <ListSubheader>---------------Home-------------</ListSubheader>
                                     <MenuItem value='House'>House</MenuItem>
                                     <MenuItem value='Flat'>Flat</MenuItem>
@@ -736,4 +713,4 @@ function RentEdit() {
     )
 }
 
-export default RentEdit
+export default Sellingelist

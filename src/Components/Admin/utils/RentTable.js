@@ -12,9 +12,11 @@ import { IconButton } from "@mui/material";
 
 import { Stack } from "@mui/system";
 import { db } from "../../../Auth/firebase";
+import { useNavigate } from "react-router-dom";
 
 function RentTable() {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -28,15 +30,8 @@ function RentTable() {
     fetchUsers();
   }, []);
 
-  const handleEdit = async (user) => {
-    try {
-      const userRef = doc(db, "rent", user.id);
-      await updateDoc(userRef, user);
-      alert("User data updated successfully!");
-    } catch (error) {
-      console.error(error);
-      alert("Error updating user data.");
-    }
+  const handleEdit = (item) => {
+    navigate("/editr", { state: { data: item } });
   };
 
   const handleDelete = async (user) => {
@@ -55,7 +50,7 @@ function RentTable() {
 
   return (
     <div>
-      <table  style={{ width: "900px" }}>
+      <table style={{ width: "900px" }}>
         <thead>
           <tr>
             <th>Email</th>

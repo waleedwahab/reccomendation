@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import { Stack } from "@mui/system";
 import {
@@ -15,7 +16,7 @@ import { db } from "../../../Auth/firebase";
 
 function SellTable() {
   const [users, setUsers] = useState([]);
-
+const Navigate = useNavigate();
   useEffect(() => {
     const fetchUsers = async () => {
       const querySnapshot = await getDocs(collectionGroup(db, "sell"));
@@ -28,7 +29,7 @@ function SellTable() {
     fetchUsers();
   }, []);
 
-  const handleEdit = async (user) => {
+ /* const handleEdit = async (user) => {
     try {
       const userRef = doc(db, "rent", user.id);
       await updateDoc(userRef, user);
@@ -37,7 +38,11 @@ function SellTable() {
       console.error(error);
       alert("Error updating user data.");
     }
-  };
+  };*/
+  const handleEdit = (item)=>
+  {
+    Navigate("/edits", { state: { data: item } });
+  }
 
   const handleDelete = async (user) => {
     if (window.confirm("Are you sure you want to delete this user?")) {

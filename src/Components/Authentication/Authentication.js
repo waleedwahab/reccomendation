@@ -143,6 +143,7 @@ function Authentication() {
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
       .then((userCredential) => {
         // Signed in
+       
         if (userCredential.user.emailVerified === false) {
           setLoading(false);
           toast.error("Please verify your email", {
