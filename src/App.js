@@ -30,6 +30,7 @@ import Rentingelist from "./Components/adminedit/Rentingelist";
 import Sellingelist from "./Components/adminedit/Sellingelist";
 import Edituser from "./Components/adminedit/Edituser";
 import RequireAuth from "./layout/RquireAuth";
+import RequireAdminAuth from "./layout/RequireAdminAuth";
 import Unauthorized from "./layout/Unauthorized";
 
 // import { userActions } from "./Components/Redux/user-slice";
@@ -44,37 +45,34 @@ function App() {
         <Route path="/" element={<Layout />}>
           {/* Public Routes */}
           <Route path="/" element={<Authentication />} />
-          {/* Protected Admin Routes */}
           <Route path="AdminLogin" element={<AdminLogin />} />
-          <Route path="AdminDashboard" element={<AdminDashboard />} />
-         
-          <Route path="/edituser" element={<Edituser />} />
-          <Route path="/admin/sell" element={<SellPanel />} />
-          <Route path="/admin/rent" element={<RentPanel />} />
-          <Route path="/viewItem" element={<Viewitems/>} />
-          <Route path="/editr" element={<Rentingelist/>} />
-          <Route path="/edits" element={<Sellingelist/>} />
-          <Route
-            path="/conversation"
-            element={<Conversation currentUser={user} sellingUser={seller} />}
-          />
+          
+          {/* Protected Admin Routes */}
+        {/* <Route  element = {<RequireAdminAuth/>}> */}
+         <Route path="AdminDashboard" element={<AdminDashboard />} />
+         <Route path="/edituser" element={<Edituser />} />
+         <Route path="/admin/sell" element={<SellPanel />} />
+         <Route path="/admin/rent" element={<RentPanel />} />
+         <Route path="/viewItem" element={<Viewitems/>} />
+         <Route path="/editr" element={<Rentingelist/>} />
+         <Route path="/edits" element={<Sellingelist/>} />
+        {/* </Route> */}
 
           {/* Protected User Routes */}
-          <Route   element = {<RequireAuth/>}  >
+        <Route element = {<RequireAuth/>}  >
           <Route path="UserDashboard" element={<UserDashboard />} />
           <Route path="userProfile" element={<UserProfile user={user} />} />
           <Route path="Sell" element={<Sell />} />
           <Route path="Rent" element={<Rent />} />
           <Route path="/buylist" element={<SellDashboard />} />
-          
           <Route path="/rentlist" element={<RentDashboard/>} />
-
           <Route path="ManageSell" element={<ManageSell />} />
           <Route path="ManageRent" element={<ManageRent />} />
           <Route path="SellEdit" element={<SellEdit />} />
           <Route path="AboutUs" element={<AboutUs />} />
           <Route path="ContactUs" element={<ContactUs />} />
           <Route path="RentEdit" element={<RentEdit />} />
+          <Route path="/conversation" element={<Conversation currentUser={user} sellingUser={seller} />}/>
           <Route path="*" element={<Missing />} />
           <Route path="/Unauthorized" element={<Unauthorized />} />
         </Route>

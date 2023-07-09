@@ -35,6 +35,7 @@ const TextArea = styled.textarea`
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 95%;
 `;
 
 const SubmitButton = styled.button`

@@ -128,12 +128,14 @@ function Authentication() {
     const querySnapshot = await getDocs(q);
     let data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     setLoading(false);
-    dispatch(setUserInfo(data[0]));
-    if (data[0].role === "admin") {
-      navigate("/AdminDashboard");
-    }
     if (data[0].role === "user") {
+      dispatch(setUserInfo(data[0]));
       navigate("/UserDashboard");
+    }else{
+      toast.error("Credential dosn't match!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      navigate("/");
     }
   };
 

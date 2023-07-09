@@ -53,12 +53,14 @@ function AdminLogin() {
     const querySnapshot = await getDocs(q);
     let data = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     setLoading(false);
-    dispatch(setUserInfo(data[0]));
     if (data[0].role === "admin") {
-      navigate("/adminLogin");
-    }
-    if (data[0].role === "user") {
+      dispatch(setUserInfo(data[0]));
       navigate("/AdminDashboard");
+    }else{
+      toast.error("Credential dosn't match!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      navigate("/adminLogin");
     }
   };
 
