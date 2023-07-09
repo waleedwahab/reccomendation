@@ -169,7 +169,6 @@ console.log("this is seller",user);
 
     return (
         <div className={styles.Main}>
-        <h1>hiiiid{user.id}</h1>
             <UserNavbar />
             <h1>SELL</h1>
             <form className={styles.Main2} onSubmit={handleSubmit}>

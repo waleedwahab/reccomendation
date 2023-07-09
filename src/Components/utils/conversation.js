@@ -8,10 +8,10 @@ import {
   serverTimestamp,
   addDoc,
 } from "firebase/firestore";
-import { db } from "../../Auth/firebase";
+import { db, Storage } from "../../Auth/firebase";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Styled Components
 const ConversationContainer = styled.div`
@@ -44,7 +44,7 @@ const Input = styled.input`
   border-radius: 8px;
   border: none;
   outline: none;
-  background-color: #f2f2f2; /* Change the background color to your desired color */
+  background-color: #fff; /* Change the background color to your desired color */
   color: #333333; /* Change the text color to your desired color */
 `;
 const MessageItem = styled.div`
@@ -93,6 +93,7 @@ const OptionsButton = styled.button`
   color: #ffffff;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: max-content;
 
   &:hover {
     background-color: #45a049;
@@ -134,7 +135,6 @@ function Conversation({ currentUser, sellingUser }) {
   const [imageFile, setImageFile] = useState(null);
   const [file, setFile] = useState(null);
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const storage = getStorage();
   const location = useLocation();
 
 
@@ -174,21 +174,22 @@ function Conversation({ currentUser, sellingUser }) {
     if (newMessage.trim() === "" && !imageFile && !file) {
       return;
     }
-  
     // Upload image file if available
     let imageURL = "";
     if (imageFile) {
-      const storageRef = storage.ref(`images/${imageFile.name}`);
-      await storageRef.put(imageFile);
-      imageURL = await storageRef.getDownloadURL();
+      const storageRef = ref(Storage, `images/${imageFile.name}`);
+      const blob = new Blob([imageFile], { type: imageFile.type });
+      await uploadBytes(storageRef, blob);
+      imageURL = await getDownloadURL(storageRef);
     }
   
     // Upload file if available
     let fileURL = "";
     if (file) {
-      const storageRef = storage.ref(`files/${file.name}`);
-      await storageRef.put(file);
-      fileURL = await storageRef.getDownloadURL();
+      const storageRef = ref(Storage, `files/${file.name}`);
+      const blob = new Blob([file], { type: file.type });
+      await uploadBytes(storageRef, blob);
+      fileURL = await getDownloadURL(storageRef);
     }
   
     const message = {
@@ -199,7 +200,6 @@ function Conversation({ currentUser, sellingUser }) {
       file: fileURL,
       timestamp: serverTimestamp(),
     };
-  
     try {
       await addDoc(
         collection(db, `users/${selectedConversation.receiverId}/messages`),
@@ -216,11 +216,13 @@ function Conversation({ currentUser, sellingUser }) {
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     setImageFile(file);
+    setOptionsOpen(false);
   };
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     setFile(file);
+    setOptionsOpen(false);
   };
   const toggleOptionsPanel = () => {
     setOptionsOpen((prevState) => !prevState);
@@ -249,13 +251,11 @@ function Conversation({ currentUser, sellingUser }) {
                   ? "You: "
                   : message.senderName + ": "}
               </Sender>
-              <div>{message.text}</div>
-              {message.image && <img src={message.image} alt="Message Image" />}
-              {message.file && (
-                <a href={message.file} target="_blank" rel="noopener noreferrer">
+              <div>{message?.text}</div>
+              {message.image.length>10?<img src={message.image} style={{width:"100px", height: "100px"}} alt="Message Image" />:<></>}
+              {message.file.length>10?<a href={message.file} target="_blank" rel="noopener noreferrer">
                   Download File
-                </a>
-              )}
+                </a>:<></>}
             </MessageItem>
           ))}
         </MessagesContainer>
@@ -270,7 +270,7 @@ function Conversation({ currentUser, sellingUser }) {
         />
          <OptionsContainer>
           <OptionsButton onClick={toggleOptionsPanel}>
-            Options
+            Options {(imageFile!==null || file!==null)?<span style={{backgroundColor: "red", padding: "3px", borderRadius: "50%", fontSize:"x-small"}}>1</span>:<></>}
           </OptionsButton>
           <OptionsPanel open={optionsOpen}>
             <Option>

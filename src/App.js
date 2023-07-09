@@ -48,7 +48,6 @@ function App() {
   <Route path="AdminLogin" element={<AdminLogin />} />
   {/* Protected Admin Routes */}
   <Route element={<RequireAdminAuth />}>
-    
     <Route path="AdminDashboard" element={<AdminDashboard />} />
     <Route path="/edituser" element={<Edituser />} />
     <Route path="/admin/sell" element={<SellPanel />} />
