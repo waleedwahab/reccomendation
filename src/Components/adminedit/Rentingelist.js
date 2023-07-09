@@ -33,6 +33,7 @@ function Rentingelist() {
     const [latitute, setLatitude] = useState(locations.state.data.location._lat)
     const [longitude, setLongitude] = useState(locations.state.data.location._long)
     const [marla, setMarla] = useState(locations.state.data.area)
+    const [userid, setuserid]=useState(locations.state.data.userId)
     const [price, setPrice] = useState(locations.state.data.price)
     const [bedroom, setBedroom] = useState(locations.state.data.bedroom)
     const [bathroom, setBathroom] = useState(locations.state.data.bathroom)
@@ -171,14 +172,12 @@ function Rentingelist() {
                 number,
             }
             console.log(data);
-            const docRef = doc(db, "users", user.id);
+            const docRef = doc(db, "users", userid);
             const colRef = collection(docRef, "rent")
             const abc = doc(colRef, locations.state.data.docId)
-            updateDoc(abc, data).then((res) => {
-                navigate('/ManageRent')
-                toast.success('Please select location', {
-                    position: toast.POSITION.TOP_RIGHT,
-                });
+            updateDoc(abc, data).then(() => {
+                console.log("Updated")
+                navigate("/AdminDashboard")
 
             })
                 .catch((e) =>

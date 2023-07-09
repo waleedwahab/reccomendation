@@ -5,26 +5,22 @@ import { IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 import { Stack } from "@mui/system";
-import {
-  collectionGroup,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
-import { db } from "../../../Auth/firebase";
+import { collection, getDocs, collectionGroup,addDoc, query, where, updateDoc, doc, deleteDoc, GeoPoint } from 'firebase/firestore';
+import {db} from "../../../Auth/firebase"
 
 function SellTable() {
   const [users, setUsers] = useState([]);
 const Navigate = useNavigate();
   useEffect(() => {
     const fetchUsers = async () => {
-      const querySnapshot = await getDocs(collectionGroup(db, "sell"));
+      const querySnapshot = (await getDocs(collectionGroup(db, "sell")))
       const fetchedUsers = querySnapshot.docs.map((doc) => ({
         docId: doc.id,
         ...doc.data(),
       }));
       setUsers(fetchedUsers);
+      console.log("my userss",fetchUsers);
+      
     };
     fetchUsers();
   }, []);
@@ -46,17 +42,24 @@ const Navigate = useNavigate();
 
   const handleDelete = async (user) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
+      console.log(user.docId);
       try {
-        const userRef = doc(db, "rent", user.id);
-        await deleteDoc(userRef);
-        setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
-        alert("User deleted successfully!");
+        const docRef = doc(db, "users", user.userId);
+        const colRef = collection(docRef, "sell")
+        const abc = doc(colRef,user.docId)
+        deleteDoc(abc).then(()=>{
+          const updatedUserData = users.filter((item) => item.docId !== user.docId);
+          setUsers(updatedUserData);
+          console.log('deletedd')
+        })
+
+        console.log("Deleted successfully");
       } catch (error) {
-        console.error(error);
-        alert("Error deleting user.");
+        console.log("Error while deleting:", error);
       }
     }
   };
+  
 
   return (
     <div>

@@ -37,6 +37,7 @@ function Sell() {
     const [email, setEmail] = useState(null)
     const [number, setNumber] = useState(null)
     const user = useSelector((state) => state.user.userInfo);
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -62,7 +63,7 @@ function Sell() {
         setLongitude(lng);
     };
 
-
+console.log("this is seller",user);
     
     const fileHandler = async (e) => {
         const files = e.target.files; // Get the selected files
@@ -143,6 +144,7 @@ function Sell() {
                 images: fileURL,
                 email,
                 number,
+                userId:user.id,
             }
             console.log(data);
             // addDoc(collection(db, "users"), { id: res.user.uid, name: values.username, email: values.email, imgURL: "", role: 'user', phoneNo: "" })
@@ -167,6 +169,7 @@ function Sell() {
 
     return (
         <div className={styles.Main}>
+        <h1>hiiiid{user.id}</h1>
             <UserNavbar />
             <h1>SELL</h1>
             <form className={styles.Main2} onSubmit={handleSubmit}>

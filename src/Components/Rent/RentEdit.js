@@ -141,7 +141,6 @@ function RentEdit() {
             console.log(err);
         }
     }
-
     const handleType = (e) => {
         setType(e.target.value)
     }
@@ -674,7 +673,7 @@ function RentEdit() {
                         <div className={styles.images}>
                             <h4 className={styles.h4}>Upload Images of your Property</h4>
 
-                            <input className={styles.input} type="file" onChange={fileHandler} accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf,.zip,.rar,.7zip" />
+                            <input className={styles.input} type="file" multiple onChange={fileHandler} accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf,.zip,.rar,.7zip" />
                             {fileURL.length > 0 && <div className={styles.holder}>
                                 {fileURL.map((value) => {
                                     return (

@@ -9,7 +9,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Box } from '@mui/system'
-import { Button, Input, InputAdornment, OutlinedInput } from '@mui/material'
+import { Alert, Button, Input, InputAdornment, OutlinedInput } from '@mui/material'
 import GoogleMaps from '../Maps/GoogleMap'
 import { ref, uploadBytes, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { Storage } from '../../Auth/firebase'
@@ -27,6 +27,8 @@ function Sellingelist() {
     const [file, setfile] = useState('');
     const [location, setLocation] = useState(locations.state.data.city)
     const [type, setType] = useState(locations.state.data.type)
+    const[id, setid] = useState(locations.state.data.docId)
+    const [userid, setuserid]=useState(locations.state.data.userId)
     const [fileURL, setfileURL] = useState(locations.state.data.images);
     const [latitute, setLatitude] = useState(locations.state.data.location._lat)
     const [longitude, setLongitude] = useState(locations.state.data.location._long)
@@ -43,18 +45,57 @@ function Sellingelist() {
 
 
 
-    useEffect(() => {
+    // useEffect(() => {
   
-        const getUsers = async () => {
-            const docRef = doc(db, "users", user.id);
-            const colRef = collection(docRef, "sell")
-            const data = await getDocs(colRef)
-            console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    //     const getUsers = async () => {
+    //         const docRef = doc(db, "users", user.id);
+    //         const colRef = collection(docRef, "sell")
+    //         const data = await getDocs(colRef)
+    //         console.log(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+    //     }
+
+    //     getUsers()
+
+    // }, [])
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (!latitute) {
+            toast.error('Please select location', {
+                position: toast.POSITION.TOP_RIGHT,
+            });
         }
+        else {
+            let data = {
+                city: location,
+                type,
+                location: new GeoPoint(latitute, longitude),
+                area: marla,
+                price,
+                bedroom,
+                bathroom,
+                title,
+                description,
+                images: fileURL,
+                email,
+                number,
+            }
+            console.log(data);
+            const docRef = doc(db, "users", userid);
+            const colRef = collection(docRef, "sell")
+            const abc = doc(colRef, locations.state.data.docId)
+            updateDoc(abc, data).then(() => {
+                console.log("Updated")
+                navigate("/AdminDashboard")
 
-        getUsers()
+            })
+                .catch((e) =>
+                    console.log(e))
+        }
+    }
 
-    }, [])
+
+    
 
     const handleChange = (event) => {
         setLocation(event.target.value);
@@ -123,12 +164,14 @@ function Sellingelist() {
         setType(e.target.value)
     }
 
-    const handleSubmit = (e) => {
+    /*const handleSubmit = (e) => {
         e.preventDefault()
         if (!latitute) {
             toast.error('Please select location', {
                 position: toast.POSITION.TOP_RIGHT,
             });
+
+            console.log('... my doc is ...',id)
         }
         else {
             let data = {
@@ -159,7 +202,7 @@ function Sellingelist() {
                 .catch((e) =>
                     console.log(e))
         }
-    }
+    }*/
 
 
     return (

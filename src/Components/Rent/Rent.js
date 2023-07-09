@@ -163,6 +163,7 @@ function Rent() {
                 images: fileURL,
                 email,
                 number,
+                userId:user.id,
             }
             console.log(data);
             // addDoc(collection(db, "users"), { id: res.user.uid, name: values.username, email: values.email, imgURL: "", role: 'user', phoneNo: "" })

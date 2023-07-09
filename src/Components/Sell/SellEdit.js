@@ -68,56 +68,57 @@ function SellEdit() {
 
 
     const fileHandler = async (e) => {
-        setfile(e.target.files[0]);
-
-        if (file == null)
-            return;
-
-        toast(0, { autoClose: false, toastId: 1 })
-
+        const files = e.target.files; // Get the selected files
+        
+        if (!files || files.length === 0) return; // If no files selected, return
+      
+        toast(0, { autoClose: false, toastId: 1 });
+      
         try {
-            console.log("uploading")
-            const storageRef = ref(Storage, `/propertyImages/${e.target.files[0].name}`);
-            const uploadTask = uploadBytesResumable(storageRef, e.target.files[0]);
-            console.log("uploaded");
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    const p = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    toast.update(1, {
-                        // position: toast.POSITION.TOP_CENTER,
-                        render: 'Uploading ' + p.toFixed(0) + '%',
-                    });
-                    switch (snapshot.state) {
-                        case 'paused':
-                            console.log('Upload is paused');
-                            break;
-                        case 'running':
-                            console.log('Upload is running');
-                            break;
-                    }
-                },
-                (error) => {
-                    console.log(error);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-
-                        let data = {
-                            url: url
-                        }
-                        setfileURL((prev) => [...prev, data]);
-                        toast.update(1, {
-                            type: toast.TYPE.SUCCESS,
-                            render: 'File uploaded',
-                            autoClose: 1000
-                        });
-                    });
-                }
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const storageRef = ref(Storage, `/propertyImages/${file.name}`);
+            const uploadTask = uploadBytesResumable(storageRef, file);
+            
+            uploadTask.on(
+              'state_changed',
+              (snapshot) => {
+                const p = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                toast.update(1, {
+                  render: `Uploading ${p.toFixed(0)}%`,
+                });
+                // Handle upload progress
+                // ...
+              },
+              (error) => {
+                console.log(error);
+                // Handle upload error
+                // ...
+              },
+              () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                  let data = {
+                    url: url,
+                  };
+                  setfileURL((prev) => [...prev, data]);
+                  // Handle successful upload
+                  // ...
+                });
+              }
             );
+          }
+      
+          toast.update(1, {
+            type: toast.TYPE.SUCCESS,
+            render: 'Files uploaded',
+            autoClose: 1000,
+          });
         } catch (err) {
-            console.log(err);
+          console.log(err);
+          // Handle error
+          // ...
         }
-    }
+      };
 
     const handleType = (e) => {
         setType(e.target.value)
@@ -651,7 +652,7 @@ function SellEdit() {
                         <div className={styles.images}>
                             <h4 className={styles.h4}>Upload Images of your Property</h4>
 
-                            <input className={styles.input} type="file" onChange={fileHandler} accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf,.zip,.rar,.7zip" />
+                            <input className={styles.input} type="file" multiple onChange={fileHandler} accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf,.zip,.rar,.7zip" />
                             {fileURL.length > 0 && <div className={styles.holder}>
                                 {fileURL.map((value) => {
                                     return (

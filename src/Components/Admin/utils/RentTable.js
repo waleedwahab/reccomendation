@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  collectionGroup,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { collection, getDocs, collectionGroup,addDoc, query, where, updateDoc, doc, deleteDoc, GeoPoint } from 'firebase/firestore';
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
@@ -36,14 +30,20 @@ function RentTable() {
 
   const handleDelete = async (user) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
+      console.log(user.docId);
       try {
-        const userRef = doc(db, "rent", user.id);
-        await deleteDoc(userRef);
-        setUsers((prevUsers) => prevUsers.filter((u) => u.id !== user.id));
-        alert("User deleted successfully!");
+        const docRef = doc(db, "users", user.userId);
+        const colRef = collection(docRef, "sell")
+        const abc = doc(colRef,user.docId)
+        deleteDoc(abc).then(()=>{
+          const updatedUserData = users.filter((item) => item.docId !== user.docId);
+          setUsers(updatedUserData);
+          console.log('deletedd')
+        })
+
+        console.log("Deleted successfully");
       } catch (error) {
-        console.error(error);
-        alert("Error deleting user.");
+        console.log("Error while deleting:", error);
       }
     }
   };

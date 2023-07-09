@@ -130,6 +130,7 @@ function Authentication() {
     setLoading(false);
     if (data[0].role === "user") {
       dispatch(setUserInfo(data[0]));
+      console.log("this is user data",data[0])
       navigate("/UserDashboard");
     }else{
       toast.error("Credential dosn't match!", {
@@ -298,6 +299,13 @@ function Authentication() {
                   SIGN IN
                 </ColorButton>
               </Box>
+              <button
+  className="admin-button"
+  id="adminLogin"
+  onClick={() => navigate("/AdminLogin")}
+>
+  Admin Login
+</button>
             </form>
           </div>
           <div className="overlay-container">
@@ -320,7 +328,9 @@ function Authentication() {
                 >
                   Sign In
                 </button>
+              
               </div>
+            
               <div className="overlay-panel overlay-right">
                 {/* <h1 className="h1">Discover Property</h1> */}
                 <Typed

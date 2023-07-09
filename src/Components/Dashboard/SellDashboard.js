@@ -24,15 +24,11 @@ function SellDashboard() {
     console.log(sellList);
     fetchSells();
   }, []);
-  const  handleClick = (item)=>
-  {
-
-    console.log("item",item);
+  const handleClick = (item) => {
+    console.log("item", item);
     const items = item;
-   // navigate('/viewItem');
     navigate('/viewItem', { state: { item } });
-  }
-
+  };
   
 
   return (
