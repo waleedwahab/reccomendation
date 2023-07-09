@@ -21,7 +21,7 @@ const Navigate = useNavigate();
     const fetchUsers = async () => {
       const querySnapshot = await getDocs(collectionGroup(db, "sell"));
       const fetchedUsers = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
+        docId: doc.id,
         ...doc.data(),
       }));
       setUsers(fetchedUsers);

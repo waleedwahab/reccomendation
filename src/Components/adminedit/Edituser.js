@@ -7,7 +7,6 @@ import {
   collection,
   
 } from 'firebase/firestore';
-
 import './UserForm.css';
 
 const Edituser = () => {
@@ -19,7 +18,6 @@ const Edituser = () => {
   const [role, setRole] = useState(location.state.user.role);
 
   const item = location.state.user;
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -44,7 +42,7 @@ const Edituser = () => {
     e.preventDefault();
 
     try {
-      const userRef = doc(db, 'users', item.id);
+      const userRef = doc(db, 'users', item.docId);
      
       await updateDoc(userRef,{
         email: email,

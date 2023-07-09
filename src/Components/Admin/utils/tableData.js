@@ -22,7 +22,7 @@ function UserTable() {
     const fetchUsers = async () => {
       const querySnapshot = await getDocs(collection(db, "users"));
       const fetchedUsers = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
+        docId: doc.id,
         ...doc.data(),
       }));
       setUsers(fetchedUsers);

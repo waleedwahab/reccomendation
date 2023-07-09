@@ -173,7 +173,7 @@ function Rentingelist() {
             console.log(data);
             const docRef = doc(db, "users", user.id);
             const colRef = collection(docRef, "rent")
-            const abc = doc(colRef, locations.state.data.id)
+            const abc = doc(colRef, locations.state.data.docId)
             updateDoc(abc, data).then((res) => {
                 navigate('/ManageRent')
                 toast.success('Please select location', {

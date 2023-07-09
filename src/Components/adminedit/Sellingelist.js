@@ -148,7 +148,7 @@ function Sellingelist() {
             console.log(data);
             const docRef = doc(db, "users", user.id);
             const colRef = collection(docRef, "sell")
-            const abc = doc(colRef, locations.state.data.id)
+            const abc = doc(colRef, locations.state.data.docId)
             updateDoc(abc, data).then((res) => {
                 navigate('/ManageSell')
                 toast.success('Please select location', {
