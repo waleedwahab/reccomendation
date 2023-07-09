@@ -12,7 +12,7 @@ function RequireAdminAuth() {
   if (!isAuthenticated) {
     return <Navigate to="/AdminLogin" state={{ from: location }} />;
   }
-  if(!Object?.entries(user)[2]?.includes('admin')){
+  if(user['role']!=='admin'){
     return <Navigate to="/UserDashboard" state={{ from: location }} />;
   }
   // If user is authenticated, render the nested routes
