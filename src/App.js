@@ -48,7 +48,7 @@ function App() {
           <Route path="AdminLogin" element={<AdminLogin />} />
           
           {/* Protected Admin Routes */}
-        {/* <Route  element = {<RequireAdminAuth/>}> */}
+        <Route  element = {<RequireAdminAuth/>}>
          <Route path="AdminDashboard" element={<AdminDashboard />} />
          <Route path="/edituser" element={<Edituser />} />
          <Route path="/admin/sell" element={<SellPanel />} />
@@ -56,7 +56,7 @@ function App() {
          <Route path="/viewItem" element={<Viewitems/>} />
          <Route path="/editr" element={<Rentingelist/>} />
          <Route path="/edits" element={<Sellingelist/>} />
-        {/* </Route> */}
+        </Route>
 
           {/* Protected User Routes */}
         <Route element = {<RequireAuth/>}  >
