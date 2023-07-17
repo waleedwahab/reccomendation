@@ -36,6 +36,7 @@ function Rent() {
     const [description, setDescription] = useState(null)
     const [email, setEmail] = useState(null)
     const [number, setNumber] = useState(null)
+    const [phoneNumberError, setPhoneNumberError] = useState('');
     const user = useSelector((state) => state.user.userInfo);
     const navigate = useNavigate()
 
@@ -149,7 +150,17 @@ function Rent() {
                 position: toast.POSITION.TOP_RIGHT,
             });
         }
+        if (!number) {
+            setPhoneNumberError('Phone number is required');
+          }
+          else if (!/^\d{10}$/.test(number)) {
+            setPhoneNumberError('Invalid phone number format');
+          }
+
         else {
+   
+
+
             let data = {
                 city: location,
                 type,
@@ -724,11 +735,14 @@ function Rent() {
                                     placeholder="Enter Mobile Number"
                                     required
                                     type='number'
-                                    value={number} onChange={(e) => setNumber(parseInt(e.target.value))}
+                                    value={number}
+                                    onChange={(e) => setNumber(parseInt(e.target.value))}
                                     inputProps={{
                                         'aria-label': '',
                                     }}
                                 />
+                                {phoneNumberError && <div>{phoneNumberError}</div>}
+
                             </FormControl>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ import "./App.css";
 import Missing from "./Components/Layout/Missing";
 
 //import Unauthorized from "./Components/Layout/Unauthorized";
+import ViewDatasetdata from "./Components/Dashboard/ViewDatasetdata";
 import Layout from "./Components/Layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -62,6 +63,8 @@ function App() {
     <Route path="userProfile" element={<UserProfile user={user} />} />
     <Route path="Sell" element={<Sell />} />
     <Route path="Rent" element={<Rent />} />
+   
+    <Route path="/datasetdata" element={<ViewDatasetdata />} />
     <Route path="/viewItem" element={<Viewitems />} />
     <Route path="/buylist" element={<SellDashboard />} />
     <Route path="/rentlist" element={<RentDashboard />} />

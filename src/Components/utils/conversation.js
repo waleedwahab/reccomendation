@@ -1,4 +1,6 @@
+
 import React, { useState, useEffect } from "react";
+import UserNavbar from "../Navbar/UserNavbar";
 import {
   collection,
   query,
@@ -7,20 +9,27 @@ import {
   onSnapshot,
   serverTimestamp,
   addDoc,
+  getDocs,
+  collectionGroup
+
 } from "firebase/firestore";
 import { db, Storage } from "../../Auth/firebase";
+import { useSelector } from 'react-redux'
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
+import Footer from "../Navbar/Footer"
+import "./Conversation.css"
 // Styled Components
 const ConversationContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow-y: hidden;
+  align-items: center;
+  justify-content: center;
+  height: 87vh;
+  margin-left: 0px;
+  
 `;
-
 const ConversationItem = styled.div`
   padding: 10px;
   background-color: #f5f5f5;
@@ -35,33 +44,48 @@ const ConversationItem = styled.div`
 const MessagesContainer = styled.div`
   flex-grow: 1;
   overflow-y: scroll;
+  width: 100%;
+  min-width: 1170px;
+  
+  margin: 20px auto;
   padding: 20px;
-  background-color: #ffffff;
-`;
-const Input = styled.input`
-  flex-grow: 1;
-  padding: 8px;
+  margin-left: 10px;
+  background-color: #f5f5f5;
   border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+`;
+
+
+const Input = styled.input`
+  padding: 8px;
+  border-radius: 20px;
   border: none;
   outline: none;
-  background-color: #fff; /* Change the background color to your desired color */
-  color: #333333; /* Change the text color to your desired color */
+  width: 100%;
+  background-color: #ffffff;
+  color: #333333;
 `;
+
 const MessageItem = styled.div`
-  margin-bottom: 10px;
   padding: 10px;
   border-radius: 8px;
-  background-color: #f5f5f5;
+  background-color: ${({ isCurrentUser }) =>
+    isCurrentUser ? "#cfeeff" : "#f5f5f5"};
+  align-self: ${({ isCurrentUser }) => (isCurrentUser ? "flex-end" : "flex-start")};
+  max-width: 80%;
+  margin-bottom: 10px;
 `;
 
 const Sender = styled.div`
   font-weight: bold;
   margin-bottom: 5px;
+  color: ${({ isCurrentUser }) => (isCurrentUser ? "#333333" : "#666666")};
 `;
 
 const InputContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 10px;
   background-color: #f5f5f5;
 `;
@@ -70,7 +94,7 @@ const InputContainer = styled.div`
 const Button = styled.button`
   margin-left: 10px;
   padding: 8px 12px;
-  border-radius: 8px;
+  border-radius: 20px;
   border: none;
   background-color: #4caf50;
   color: #ffffff;
@@ -81,9 +105,17 @@ const Button = styled.button`
     background-color: #45a049;
   }
 `;
+
 const OptionsContainer = styled.div`
   position: relative;
   margin-left: 10px;
+`;
+
+const ConversationWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: ${({ isCurrentUser }) => (isCurrentUser ? "flex-end" : "flex-start")};
+  margin-bottom: 10px;
 `;
 const OptionsButton = styled.button`
   padding: 8px 12px;
@@ -99,6 +131,7 @@ const OptionsButton = styled.button`
     background-color: #45a049;
   }
 `;
+
 const OptionsPanel = styled.div`
   position: absolute;
   bottom: 100%;
@@ -110,6 +143,7 @@ const OptionsPanel = styled.div`
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1;
 `;
+
 const Option = styled.div`
   padding: 8px;
   cursor: pointer;
@@ -128,6 +162,7 @@ const FileUploadInput = styled.input`
   display: none;
 `;
 
+
 function Conversation({ currentUser, sellingUser }) {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -135,8 +170,34 @@ function Conversation({ currentUser, sellingUser }) {
   const [imageFile, setImageFile] = useState(null);
   const [file, setFile] = useState(null);
   const [optionsOpen, setOptionsOpen] = useState(false);
+  const[musers, setUsers] = useState([]);
+  const [currentChatUser,  setCurrentChatUser] = useState([]);
   const location = useLocation();
+  const user = useSelector((state) => state.user.userInfo);
+const loginuserid = (user.id);
 
+console.log(musers);
+
+  useEffect(() => {
+    const getUsersExceptCurrent = async (loginuserid) => {
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("id", "!=", loginuserid));
+
+      try {
+        const querySnapshot = await getDocs(q);
+        const users = querySnapshot.docs.map((doc) => doc.data());
+        console.log("Users:", users);
+        setUsers(users);
+        // Do something with the users data
+      } catch (error) {
+        console.error("Error getting users:", error);
+      }
+    };
+
+    if (currentUser) {
+      getUsersExceptCurrent(currentUser.id);
+    }
+  }, [currentUser]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -151,6 +212,7 @@ function Conversation({ currentUser, sellingUser }) {
   useEffect(() => {
     console.log(sellingUser);
     if (selectedConversation) {
+      gettingdata();
       const unsubscribe = onSnapshot(
         query(
           collection(db, `users/${selectedConversation.receiverId}/messages`),
@@ -165,6 +227,37 @@ function Conversation({ currentUser, sellingUser }) {
       return () => unsubscribe();
     }
   }, [selectedConversation]);
+
+  const handleUser = (user) => {
+    setCurrentChatUser(user);
+    setSelectedConversation({
+      senderId: currentUser.id,
+      receiverId: user.id,
+    });
+  };
+
+ 
+
+  const gettingdata = async () => {
+    const urlParam = new URLSearchParams(location.search);
+    const senderid = urlParam.get("senderId");
+    const currentUserId = currentUser.id;
+
+    try {
+      const querySnapshot = await getDocs(
+        collectionGroup(db, "messages")
+          .where("participants", "array-contains", senderid)
+          .where("participants", "array-contains", currentUserId)
+          .orderBy("timestamp", "desc")
+      );
+
+      const messages = querySnapshot.docs.map((doc) => doc.data());
+      setMessages(messages);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
+
 
   const handleSendMessage = async () => {
     if (!selectedConversation) {
@@ -230,7 +323,41 @@ function Conversation({ currentUser, sellingUser }) {
 
 
   return (
+    <>
+    <UserNavbar/>
+    <div className=' mainContactContainer'>
+
+
+    <div>
+    <div style = {{width:"20pc"}}>
+        <input  className='searchforcontact' type = "search" placeholder='Search your friends'></input>
+    </div>
+
+   
+      
+    <div className='usersDetailContainer'>
+  
+    {musers.map ((user, index) =>(
+   <div  className= "userContainer"   key= {index} onClick = {(e)=>handleUser(user)} >
+ 
+
+
+          <img src ="user.imgURL"  className = "Chatuserimage" alt = ""></img>  
+          <div  style={{marginLeft:"10px"}}><p style = {{color:"black", textAlign:"start", marginTop:"0px", fontSize:"15px"}}>{user.name}</p>
+          <p   style = {{color:"black", textAlign:"start", marginTop:"-10px", fontSize:"14px"}}> open your mesage</p>
+          </div>
+</div>     )) }
+
+  
+        
+ 
+
+    </div>
+</div>
     <ConversationContainer>
+    <div className="selectedUserContainer">
+    <span><img src = "currentChatUser.imgURL" alt = "no image"></img>   <h3> {currentChatUser.name}</h3></span> 
+      </div>
       {/* Display the conversations */}
       {currentUser.sell && currentUser.sell.map((conversation) => (
         <ConversationItem
@@ -244,20 +371,30 @@ function Conversation({ currentUser, sellingUser }) {
       {/* Display the messages */}
       {selectedConversation && (
         <MessagesContainer>
-          {messages.map((message, index) => (
-            <MessageItem key={index}>
-              <Sender>
-                {message.senderId === currentUser.id
-                  ? "You: "
-                  : message.senderName + ": "}
-              </Sender>
-              <div>{message?.text}</div>
-              {message.image.length>10?<img src={message.image} style={{width:"100px", height: "100px"}} alt="Message Image" />:<></>}
-              {message.file.length>10?<a href={message.file} target="_blank" rel="noopener noreferrer">
-                  Download File
-                </a>:<></>}
-            </MessageItem>
-          ))}
+        {messages.map((message, index) => (
+  <MessageItem
+    key={index}
+    isCurrentUser={message.senderId === currentUser.id}
+  >
+    <Sender>
+      {message.senderId === currentUser.id ? "You: " : message.senderName + ": "}
+    </Sender>
+    <div>{message?.text}</div>
+    {message.image.length > 10 && (
+      <img
+        src={message.image}
+        style={{ width: "100px", height: "100px" }}
+        alt="Message Image"
+      />
+    )}
+    {message.file.length > 10 && (
+      <a href={message.file} target="_blank" rel="noopener noreferrer">
+        Download File
+      </a>
+    )}
+  </MessageItem>
+))}
+
         </MessagesContainer>
       )}
 
@@ -265,6 +402,9 @@ function Conversation({ currentUser, sellingUser }) {
       <InputContainer>
         <Input
           type="text"
+          style= {{"border":"1px solid blue" , "width":"500px"}}
+          classname = "inpt11"
+           
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
         />
@@ -296,6 +436,10 @@ function Conversation({ currentUser, sellingUser }) {
         <Button onClick={handleSendMessage}>Send</Button>
       </InputContainer>
     </ConversationContainer>
+    </div>
+    <Footer/>
+
+    </>
   );
 }
 

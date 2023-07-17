@@ -11,6 +11,7 @@ import {
   Pagination,
 } from "@mui/material";
 import Images, { getRandomHouseImage } from "./../utils/images";
+import { useNavigate } from "react-router-dom";
 
 function SearchComponentResults({ searchResults }) {
   const itemsPerPage = 5;
@@ -23,6 +24,14 @@ function SearchComponentResults({ searchResults }) {
 
   const currentItems = searchResults.slice(startIndex, endIndex);
 
+const navigate = useNavigate();
+
+   const nextPage = (item)=>
+   {
+    const items = item
+    console.log("ima hererrrrrrrrrrr",item);
+       navigate("/datasetdata" ,{ state: { data: item } } )
+   }
   const goToPage = (page) => {
     setCurrentPage(page);
   };
@@ -57,7 +66,7 @@ function SearchComponentResults({ searchResults }) {
                 <a href={item.page_url}>
                   <Button size="small">Link</Button>
                 </a>
-                <Button size="small">view Item</Button>
+                <Button size="small" onClick={() => nextPage(item) }>view Item</Button>
                 <Button size="small">Learn More</Button>
               </CardActions>
             </Card>

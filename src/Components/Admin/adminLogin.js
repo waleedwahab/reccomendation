@@ -112,6 +112,7 @@ function AdminLogin() {
         <div className={styles.formGroup}>
           <label htmlFor="email">Email:</label>
           <input
+          style={{ "width":"400px"}}
             className="input"
             required
             type="email"
@@ -123,6 +124,7 @@ function AdminLogin() {
         <div className={styles.formGroup}>
           <label htmlFor="password">Password:</label>
           <input
+          style={{ "width":"400px"}}
             className="input"
             id=""
             required

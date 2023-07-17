@@ -78,7 +78,7 @@
 }
 
 .button {
-  border-radius: 20px;
+  border-radius: 10px;
   border: 1px solid #ff4b2b;
   background-color: #ff4b2b;
   color: #ffffff;
@@ -100,12 +100,15 @@
   outline: none;
 }
 .admin-button {
-  border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
+  border-radius: 10px;
+  border: 1px solid #FF4D94;
+  background-color: #FF4D94;
+  width: 100px;
   color: #ffffff;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: bold;
+  text-align: center;
+  align-items: center;
   padding: 12px 45px;
   letter-spacing: 1px;
   margin-top: 8px;
@@ -113,6 +116,7 @@
   cursor: pointer;
   transition: transform 80ms ease-in;
 }
+
 
 .admin-button:active {
   transform: scale(0.95);

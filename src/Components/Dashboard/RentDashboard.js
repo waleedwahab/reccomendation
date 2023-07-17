@@ -8,6 +8,8 @@ import styles from "./Sell.module.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Footer from "../Navbar/Footer";
+import UserNavbar from "../Navbar/UserNavbar";
 
 function RentDashboard() {
   const [sellList, setSellList] = useState([]);
@@ -34,6 +36,7 @@ function RentDashboard() {
 
   return (
     <>
+    <UserNavbar/>
     <h1  style={{ color: 'blue', fontSize: '24px', textAlign: 'center' }}>SELLING LIST</h1>
     <div className={styles.sell_container}>
       {sellList.map((item, index) => (
@@ -81,6 +84,7 @@ function RentDashboard() {
         </div>
       ))}
     </div>
+    <Footer />
     </>
 
   );

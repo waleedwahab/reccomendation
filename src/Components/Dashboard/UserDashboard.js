@@ -74,7 +74,7 @@ function UserDashboard() {
   const searchBtn = (userInput) => {
     // Perform the search and set the search results
     console.log(userInput);
-    const url = `http://192.168.131.59:5000/recommend/${userInput}`;
+    const url = `http://192.168.43.127:5000/recommend/${userInput}`;
     console.log(url);
 
     fetch(url)
